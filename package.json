@@ -1,0 +1,9 @@
+{
+  "scripts": {
+    "test": "node --experimental-modules --no-warnings test/test.mjs",
+    "gen": "gcc test/gen.c -o gen.out -O3 && ./gen.out"
+  },
+  "devDependencies": {
+    "zora": "^4.0.1"
+  }
+}
