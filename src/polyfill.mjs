@@ -19,6 +19,17 @@ function twoProd(a, b) {
 }
 
 export function fma(a, b, c) {
+  if (!isFinite(a) || !isFinite(b))
+		return a * b + c;
+	if (!isFinite(c))
+    return c;
+    
+	if (a === 0 || b === 0)
+    return a * b + c;
+	if (c === 0) {
+    return twoProd(a, b);
+  }
+  
   let mhi = twoProd(a, b);
   let mlo = LO;
 
