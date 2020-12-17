@@ -1,4 +1,5 @@
-// Emulation of a FMA and correctly-rounded sums: proved algorithms using rounding to odd Sylvie Boldo, Guillaume Melquiond
+// This draft implementation based on
+// Sylvie Boldo, Guillaume Melquiond "Emulation of a FMA and correctly-rounded sums: proved algorithms using rounding to odd"
 // https://hal-ens-lyon.archives-ouvertes.fr/inria-00080427v2/document
 
 #include <math.h> //fma, FP_FAST_FMA

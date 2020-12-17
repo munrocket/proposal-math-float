@@ -11,10 +11,10 @@ test(`Accuracy tests`, t => {
   t.ok(actual === expected, `${actual - expected}, some value`);
 
   actual = Math.fma(0.1, 10, -1);
-  expected = 5.5511151231257827e-17
+  expected = 5.5511151231257827e-17;
   t.ok(actual === expected, `${actual - expected}, non zero`);
 
-  actual = Math.fma(1.0 + eps, 1.0 + eps, -1.0 - 2.0 * eps);
+  actual = Math.fma(1 + eps, 1 + eps, -1 - 2 * eps);
   expected = eps * eps;
   t.ok(actual === expected, `${actual - expected}, Nelson H. F. Beebe's test`);
 
@@ -27,9 +27,64 @@ test(`Accuracy tests`, t => {
   t.ok(actual === expected, `${actual - expected}, Accurate Algorithms test2`);
 });
 
-test('Overflow tests', t => {
-  t.ok(isNaN(Math.fma(+Infinity, 10, -Infinity)), 'is NAN');
+test('Infinity tests', t => {
+  t.ok(Math.fma(Infinity, 1, 1) === Infinity, 'is Infinity');
+  t.ok(Math.fma(1, Infinity, 1) === Infinity, 'is Infinity');
+  t.ok(Math.fma(1, 1, Infinity) === Infinity, 'is Infinity');
 
+  t.ok(Math.fma(Infinity, 1, 0) === Infinity, 'is Infinity');
+  t.ok(Math.fma(1, Infinity, 0) === Infinity, 'is Infinity');
+  t.ok(Math.fma(0, 1, Infinity) === Infinity, 'is Infinity');
+
+  t.ok(Math.fma(1, Infinity, Infinity) === Infinity, 'is Infinity');
+  t.ok(Math.fma(Infinity, 1, Infinity) === Infinity, 'is Infinity');
+  t.ok(Math.fma(Infinity, Infinity, 1) === Infinity, 'is Infinity');
+
+  t.ok(Math.fma(-Infinity, 1, 1) === -Infinity, 'is Infinity');
+  t.ok(Math.fma(1, -Infinity, 1) === -Infinity, 'is Infinity');
+  t.ok(Math.fma(1, 1, -Infinity) === -Infinity, 'is Infinity');
+
+  t.ok(Math.fma(-Infinity, 1, 0) === -Infinity, 'is Infinity');
+  t.ok(Math.fma(1, -Infinity, 0) === -Infinity, 'is Infinity');
+  t.ok(Math.fma(0, 1, -Infinity) === -Infinity, 'is Infinity');
+
+  t.ok(Math.fma(1, -Infinity, -Infinity) === -Infinity, 'is Infinity');
+  t.ok(Math.fma(-Infinity, 1, -Infinity) === -Infinity, 'is Infinity');
+  t.ok(Math.fma(-Infinity, -Infinity, 1) === Infinity, 'is Infinity');
+});
+
+test('NaN tests', t => {
+  t.ok(isNaN(Math.fma(NaN, 1, 1)), 'is NaN');
+  t.ok(isNaN(Math.fma(1, NaN, 1)), 'is NaN');
+  t.ok(isNaN(Math.fma(1, 1, NaN)), 'is NaN');
+
+  t.ok(isNaN(Math.fma(Infinity, 0, 1)), 'is NaN');
+  t.ok(isNaN(Math.fma(0, Infinity, 1)), 'is NaN');
+  t.ok(isNaN(Math.fma(Infinity, 0, NaN)), 'is NaN');
+  t.ok(isNaN(Math.fma(0, Infinity, NaN)), 'is NaN');
+
+  t.ok(isNaN(Math.fma(-Infinity, 0, 1)), 'is NaN');
+  t.ok(isNaN(Math.fma(0, -Infinity, 1)), 'is NaN');
+  t.ok(isNaN(Math.fma(-Infinity, 0, NaN)), 'is NaN');
+  t.ok(isNaN(Math.fma(0, -Infinity, NaN)), 'is NaN');
+
+  t.ok(isNaN(Math.fma(Infinity, 0, -Infinity)), 'is NaN');
+  t.ok(isNaN(Math.fma(0, -Infinity, Infinity)), 'is NaN');
+  t.ok(isNaN(Math.fma(Infinity, 1, -Infinity)), 'is NaN');
+  t.ok(isNaN(Math.fma(1, -Infinity, Infinity)), 'is NaN');
+
+  t.ok(isNaN(Math.fma(-Infinity, 0, Infinity)), 'is NaN');
+  t.ok(isNaN(Math.fma(0, Infinity, -Infinity)), 'is NaN');
+  t.ok(isNaN(Math.fma(-Infinity, 1, Infinity)), 'is NaN');
+  t.ok(isNaN(Math.fma(1, Infinity, -Infinity)), 'is NaN');
+
+  t.ok(isNaN(Math.fma(Infinity, Infinity, -Infinity)), 'is NaN');
+  t.ok(isNaN(Math.fma(-Infinity, Infinity, Infinity)), 'is NaN');
+  t.ok(isNaN(Math.fma(Infinity, -Infinity, Infinity)), 'is NaN');
+  t.ok(isNaN(Math.fma(-Infinity, -Infinity, -Infinity)), 'is NaN');
+});
+
+test('Overflow tests', t => {
   actual = Math.fma(Number.MAX_VALUE, 2., -Number.MAX_VALUE);
   expected = Number.MAX_VALUE;
   t.ok(actual === expected, `${actual - expected}, not overflow`);
