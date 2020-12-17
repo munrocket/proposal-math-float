@@ -8,7 +8,7 @@ int main() {
     printf("Software FMA is used!\n");
   #endif
 
-  printf("%.16e \n", fma(0.1, 10, -1));
+  printf("%.16e \n", fma(1.7976931348623157e+308, 2., -1.7976931348623157e+308));
 
   return 0;
 }

@@ -1,7 +1,7 @@
 {
   "scripts": {
-    "test": "node --experimental-modules --no-warnings test/test.mjs | node_modules/.bin/tap-prettify -",
-    "gen": "gcc test/gen.c -o gen.out -O3 && ./gen.out"
+    "test": "node --experimental-modules --no-warnings test/test.mjs | node_modules/.bin/tap-prettify - ",
+    "gen": "gcc test/gen.c -o gen.out -O2 -mfma && ./gen.out"
   },
   "devDependencies": {
     "tap-prettify": "0.0.2",

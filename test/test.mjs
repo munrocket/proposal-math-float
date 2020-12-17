@@ -87,5 +87,5 @@ test('NaN tests', t => {
 test('Overflow tests', t => {
   actual = Math.fma(Number.MAX_VALUE, 2., -Number.MAX_VALUE);
   expected = Number.MAX_VALUE;
-  t.ok(actual === expected, `${actual - expected}, not overflow`);
+  t.ok(actual === expected, `${actual - expected}, overflow test`);
 });

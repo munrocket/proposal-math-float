@@ -1,7 +1,3 @@
-// This draft implementation based on
-// Sylvie Boldo, Guillaume Melquiond "Emulation of a FMA and correctly-rounded sums: proved algorithms using rounding to odd"
-// https://hal-ens-lyon.archives-ouvertes.fr/inria-00080427v2/document
-
 #include <math.h> //fma, FP_FAST_FMA
 
 static inline double two_prod(const double a, const double b, double &err) {
@@ -16,7 +12,7 @@ static inline double two_prod(const double a, const double b, double &err) {
   double bh = t + (b - t);
   double bl = b - bh;
   t = a * b;
-  
+
   err = ((ah * bh - t) + ah * bl + al * bh) + al * bl;
   return t;
 }
