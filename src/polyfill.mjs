@@ -1,8 +1,15 @@
-// 1. Sylvie Boldo, Guillaume Melquiond
-//    "Emulation of a FMA and correctly-rounded sums: proved algorithms using rounding to odd"
-//
-// 2. Mioara Joldes, Jean-Michel Muller, Valentina Popescu
-//    "Tight and rigourous error bounds for basic building blocks of double-word arithmetic"
+function next(x, sign) {
+  let a = Math.abs(x);
+  if (a >= 2.004168360008973e-292) { //2**−969
+    return x + sign * a * (1.1102230246251565e-16 + 2.465190328815662e-32); //2**-53 + 2**-105
+  } else if (a < 4.450147717014403e-308) { //2**-1021
+    return x + sign * a * 5e-324; //2**-1074
+  } else {
+    let c = x * 1.1102230246251565e-16; //2**-53
+    let e = Math.abs(c) * (1.1102230246251565e-16 + 2.465190328815662e-32); //2**-53 + 2**-105
+    return (c + sign * e) * 1.1102230246251565e-16; //2**-53
+  }
+}
 
 export function fma(a, b, c) {
   let LO;
@@ -16,9 +23,9 @@ export function fma(a, b, c) {
   }
 
   function twoProd(a, b) {
-    let t = 134217729 * a;
+    let t = 134217729 * a; //2**27+1
     let ah = t + (a - t), al = a - ah;
-    t = 134217729 * b;
+    t = 134217729 * b; //2**27+1
     let bh = t + (b - t), bl = b - bh;
     t = a * b;
     LO = (((ah * bh - t) + ah * bl) + al * bh) + al * bl;
@@ -29,23 +36,13 @@ export function fma(a, b, c) {
     let hi = twoSum(a, b);
     if (LO !== 0) {
       VIEW.setFloat64(0, hi);
-      if (!(VIEW.getUint8(7) & 1)) {
-        let i32 = VIEW.getInt32(1);
+      if (!(VIEW.getInt8(7) & 1)) {
         if ((LO > 0) ^ (hi < 0)) {
-          VIEW.setInt32(1, ++i32);
-          if (i32 === 0) {
-            i32 = VIEW.getInt32(0);
-            VIEW.setInt32(0, ++i32);
-          }
+          hi = next(hi, 1);
         } else {
-          VIEW.setInt32(1, --i32);
-          if (i32 === 65535) {
-            i32 = VIEW.getInt32(0);
-            VIEW.setInt32(0, --i32);
-          }
+          hi = next(hi, -1);
         }
       }
-      hi = VIEW.getFloat64(0);
     }
     return hi;
   }
@@ -65,4 +62,12 @@ export function fma(a, b, c) {
   let slo = LO;
 
   return shi + oddRoundSum(mlo, slo);
+}
+
+export function nextUp(x) {
+  return next(x, 1);
+}
+
+export function nextDown(x) {
+  return next(x, -1);
 }

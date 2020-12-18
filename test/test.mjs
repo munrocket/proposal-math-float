@@ -1,11 +1,22 @@
-import { fma } from '../src/polyfill.mjs';
+import { fma, nextUp, nextDown } from '../src/polyfill.mjs';
 import { test } from 'zora';
 
 Math.fma = fma;
 let actual, expected;
 let eps = Number.EPSILON;
 
-test(`Accuracy tests`, t => {
+test('nextUp', t => {
+  t.ok(nextUp(1) === 1.0 + Math.pow(2, -52), '1 up');
+  t.ok(nextUp(-1) === -1.0 + Math.pow(2, -53), '1 down');
+  t.ok(nextUp(1 - Math.pow(2, -53)) === 1, 'pre1');
+});
+
+test('nextDown', t => {
+  t.ok(nextDown(1) === 1.0 - Math.pow(2, -53), '1 down');
+  t.ok(nextDown(-1) === -(1.0 + Math.pow(2, -52)), '-1 down');
+});
+
+test(`FMA accuracy tests`, t => {
   actual = Math.fma(10.20, 20.91, 30.12);
   expected = 243.402;
   t.ok(actual === expected, `${actual - expected}, some value`);
@@ -27,7 +38,7 @@ test(`Accuracy tests`, t => {
   t.ok(actual === expected, `${actual - expected}, Accurate Algorithms test2`);
 });
 
-test('Infinity tests', t => {
+test('FMA infinity tests', t => {
   t.ok(Math.fma(Infinity, 1, 1) === Infinity, 'is Infinity');
   t.ok(Math.fma(1, Infinity, 1) === Infinity, 'is Infinity');
   t.ok(Math.fma(1, 1, Infinity) === Infinity, 'is Infinity');
@@ -53,7 +64,7 @@ test('Infinity tests', t => {
   t.ok(Math.fma(-Infinity, -Infinity, 1) === Infinity, 'is Infinity');
 });
 
-test('NaN tests', t => {
+test('FMA NaN tests', t => {
   t.ok(isNaN(Math.fma(NaN, 1, 1)), 'is NaN');
   t.ok(isNaN(Math.fma(1, NaN, 1)), 'is NaN');
   t.ok(isNaN(Math.fma(1, 1, NaN)), 'is NaN');
@@ -84,7 +95,7 @@ test('NaN tests', t => {
   t.ok(isNaN(Math.fma(-Infinity, -Infinity, -Infinity)), 'is NaN');
 });
 
-test('Overflow tests', t => {
+test('FMA overflow tests', t => {
   actual = Math.fma(Number.MAX_VALUE, 2., -Number.MAX_VALUE);
   expected = Number.MAX_VALUE;
   t.ok(actual === expected, `${actual - expected}, overflow test`);
