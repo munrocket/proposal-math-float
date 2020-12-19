@@ -6,14 +6,28 @@ let actual, expected;
 let eps = Number.EPSILON;
 
 test('nextUp', t => {
-  t.ok(nextUp(1) === 1.0 + Math.pow(2, -52), '1 up');
-  t.ok(nextUp(-1) === -1.0 + Math.pow(2, -53), '1 down');
-  t.ok(nextUp(1 - Math.pow(2, -53)) === 1, 'pre1');
+  t.ok(nextUp(1) === 1.0 + Math.pow(2, -52), '1');
+  t.ok(nextUp(123e120) === 1.2300000000000001E122, '123e120');
+  t.ok(nextUp(-1) === -0.9999999999999999, '-1');
+  t.ok(isNaN(nextUp(NaN)), 'NaN');
+  t.ok(nextUp(0) === 4.9E-324, '0');
+  t.ok(nextUp(Infinity) === Infinity, 'Infinity');
+  t.ok(nextUp(-Infinity) === -1.7976931348623157E308, '-Infinity');
+  t.ok(nextUp(2e-300) === 2.0000000000000004E-300, '2e300');
+  t.ok(nextUp(2.1341341234e-310) === 2.13413412340004E-310, '2e310');
 });
 
 test('nextDown', t => {
-  t.ok(nextDown(1) === 1.0 - Math.pow(2, -53), '1 down');
-  t.ok(nextDown(-1) === -(1.0 + Math.pow(2, -52)), '-1 down');
+  t.ok(nextDown(1) === 1.0 - Math.pow(2, -53), '1');
+  t.ok(nextDown(1.2300000000000001E122) === 123e120, '123e120');
+  t.ok(nextDown(-0.9999999999999999) === -1, '-0.99');
+  t.ok(isNaN(nextDown(NaN)), 'NaN');
+  t.ok(nextDown(0) === -4.9E-324, '0');
+  t.ok(nextDown(-1.7976931348623157E308) === -Infinity, '0');
+  t.ok(nextDown(-Infinity) === -Infinity, 'Infinity');
+  t.ok(nextDown(Infinity) === 1.7976931348623157E308, '-Infinity');
+  t.ok(nextDown(2.0000000000000004E-300) === 2e-300, '2e300');
+  t.ok(nextDown(2.13413412340004E-310) === 2.1341341234e-310, '2e310');
 });
 
 test(`FMA accuracy tests`, t => {

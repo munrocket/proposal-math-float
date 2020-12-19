@@ -9,6 +9,7 @@ int main() {
   #endif
 
   printf("%.16e \n", fma(1.7976931348623157e+308, 2., -1.7976931348623157e+308));
+  //nextUp function better to try in online java compiler
 
   return 0;
 }
