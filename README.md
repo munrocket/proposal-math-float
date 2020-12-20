@@ -7,9 +7,9 @@ FMA instruction that performs multiplication-addition in one step, with single r
 
 ### Proposed syntax
 ```js
-let fma = Math.fma(a, b, c);
-let succ = Math.nextUp(a);
-let pred = Math.nextDown(a);
+let fma = Math.fma(x, y, z);
+let successor = Math.nextUp(x);
+let predecessor = Math.nextDown(x);
 ```
 
 ### Key algorithms

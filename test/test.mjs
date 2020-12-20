@@ -13,8 +13,11 @@ test('nextUp', t => {
   t.ok(nextUp(0) === 4.9E-324, '0');
   t.ok(nextUp(Infinity) === Infinity, 'Infinity');
   t.ok(nextUp(-Infinity) === -1.7976931348623157E308, '-Infinity');
+  t.ok(nextUp(1.7976931348623157E308) === Infinity, 'max val');
   t.ok(nextUp(2e-300) === 2.0000000000000004E-300, '2e300');
-  t.ok(nextUp(2.1341341234e-310) === 2.13413412340004E-310, '2e310');
+  t.ok(nextUp(2.1341341234e-310) === 2.13413412340004E-310, '2e-310');
+  t.ok(nextUp(4.322345837456233E100) === 4.322345837456234E100, '4e100');
+  t.ok(nextUp(4.322345837456234E-100) === 4.3223458374562346E-100, '4e-100');
 });
 
 test('nextDown', t => {
@@ -26,8 +29,11 @@ test('nextDown', t => {
   t.ok(nextDown(-1.7976931348623157E308) === -Infinity, '0');
   t.ok(nextDown(-Infinity) === -Infinity, 'Infinity');
   t.ok(nextDown(Infinity) === 1.7976931348623157E308, '-Infinity');
+  t.ok(nextDown(-1.7976931348623157E308) === -Infinity, 'max val');
   t.ok(nextDown(2.0000000000000004E-300) === 2e-300, '2e300');
-  t.ok(nextDown(2.13413412340004E-310) === 2.1341341234e-310, '2e310');
+  t.ok(nextDown(2.13413412340004E-310) === 2.1341341234e-310, '2e-310');
+  t.ok(nextDown(4.322345837456234E100) === 4.322345837456233E100, '4e100');
+  t.ok(nextDown(4.3223458374562346E-100) === 4.322345837456234E-100, '4e-100');
 });
 
 test(`FMA accuracy tests`, t => {
