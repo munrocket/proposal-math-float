@@ -1,3 +1,11 @@
+export function ldexp(x, exp) {
+  if (exp >= 0) {
+    return x = x * (1 << exp);
+  } else {
+    return x = x / (1 << -exp);
+  }
+}
+
 function next(x, sign) {
   var a = Math.abs(x);
   if (x === -sign * Infinity) {
@@ -11,6 +19,14 @@ function next(x, sign) {
     var e = Math.abs(c) * 1.1102230246251568e-16; //2**-53 + 2**-105
     return (c + sign * e) * 1.1102230246251565e-16; //2**-53
   }
+}
+
+export function nextUp(x) {
+  return next(x, 1);
+}
+
+export function nextDown(x) {
+  return next(x, -1);
 }
 
 export function fma(x, y, z) {
@@ -53,19 +69,39 @@ export function fma(x, y, z) {
     return x * y + z;
   }
 
+  var xe = Math.floor(Math.log(Math.abs(x)) * Math.LOG2E) - 52;
+  var ye = Math.floor(Math.log(Math.abs(y)) * Math.LOG2E) - 52;
+  var ze = Math.floor(Math.log(Math.abs(z)) * Math.LOG2E) - 52;
+  var spread = xe + ye - ze;
+  var xm = ldexp(x, xe);
+  var ym = ldexp(y, ye);
+  var zm = ldexp(z, ze);
+
+  if (spread < -53) {
+    return z;
+  }
+
+  if (spread <= 106) {
+    zm = ldexp(zm, spread);
+  } else {
+    zm = (zm > 0) ? Number.MIN_VALUE : -Number.MIN_VALUE;
+  }
+
   var mulhi = twoProd(x, y);
   var mullo = LO;
   var sumhi = twoSum(mulhi, z);
   var sumlo = LO;
 
+  // spread = xe + ye;
+  // if (sumhi === 0) {
+  //   return (mulhi + zm + ldexp(mullo, spread));
+  // }
+
   var adj = oddRoundSum(mullo, sumlo);
   return sumhi + adj;
-}
-
-export function nextUp(x) {
-  return next(x, 1);
-}
-
-export function nextDown(x) {
-  return next(x, -1);
+  // if (spread + Math.floor(Math.log(Math.abs(sumhi)) * Math.LOG2E) > -1023) {
+  //   return ldexp(sumhi + adj, spread);
+  // } else {
+  //   return ldexp(sumhi + adj, spread);
+  // }
 }

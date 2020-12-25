@@ -1,4 +1,4 @@
-import { fma, nextUp, nextDown } from '../src/polyfill.mjs';
+import { fma, ldexp, nextUp, nextDown } from '../src/polyfill.mjs';
 import { test } from 'zora';
 
 Math.fma = fma;
@@ -34,6 +34,14 @@ test('nextDown', t => {
   t.ok(nextDown(2.13413412340004E-310) === 2.1341341234e-310, '2e-310');
   t.ok(nextDown(4.322345837456234E100) === 4.322345837456233E100, '4e100');
   t.ok(nextDown(4.3223458374562346E-100) === 4.322345837456234E-100, '4e-100');
+});
+
+test('ldexp', t => {
+  t.ok(ldexp(Math.PI, 2) === 1.2566370614359172e+01, 'pi,2');
+  t.ok(ldexp(Math.PI, 0) === 3.1415926535897931e+00, 'pi,0');
+  t.ok(ldexp(Math.PI, -2) === 7.8539816339744828e-01, 'pi,-2');
+  t.ok(ldexp(Infinity, 0) === Infinity, 'inf');
+  t.ok(isNaN(ldexp(NaN, 0)), 'NaN');
 });
 
 test(`FMA accuracy tests`, t => {
