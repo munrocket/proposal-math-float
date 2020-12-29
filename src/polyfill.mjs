@@ -1,9 +1,5 @@
 export function ldexp(x, exp) {
-  if (exp >= 0) {
-    return x = x * (1 << exp);
-  } else {
-    return x = x / (1 << -exp);
-  }
+  return x = x * Math.pow(2, exp);
 }
 
 function next(x, sign) {

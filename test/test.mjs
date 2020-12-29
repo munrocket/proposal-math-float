@@ -40,6 +40,8 @@ test('ldexp', t => {
   t.ok(ldexp(Math.PI, 2) === 1.2566370614359172e+01, 'pi,2');
   t.ok(ldexp(Math.PI, 0) === 3.1415926535897931e+00, 'pi,0');
   t.ok(ldexp(Math.PI, -2) === 7.8539816339744828e-01, 'pi,-2');
+  t.ok(ldexp(Math.PI, 1022) === 1.4119048864730642e+308, 'overflow');
+  t.ok(ldexp(Math.PI, -1024) === 1.7475689218952297e-308, 'overflow');
   t.ok(ldexp(Infinity, 0) === Infinity, 'inf');
   t.ok(isNaN(ldexp(NaN, 0)), 'NaN');
 });
