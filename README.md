@@ -36,13 +36,15 @@ let predecessor = Math.nextDown(x);
 | nextDown | done                                                        |
 
 ### Disclaimer
-This proposal based on my R&D projects with floating point numbers and created against
-decimal proposal that is adding pretty big dependencies in JS engine. I feel frustrated
-that JS not added this basic blocks 5 years ago and we at that point when something hardcore
-is computed slowly. There are two type of arbitrary precision floating point libraries:
-based on integers and based on floats. Since javascript don't have integers historically
-I found that solution based on floats equally good and fast as solutions based on
-integer arithmetic, when it properlly cooked.
+This proposal based on my R&D projects ([1](https://github.com/munrocket/double.js),
+[2](https://github.com/munrocket/jampary)) with floating point numbers and created as alternative to
+[decimal-proposal](https://github.com/tc39/proposal-decimal). I feel frustrated that JS not added this
+basic blocks 5 years ago and we at that point when something hardcore is computed not as fast as it could be.
+There are two type of arbitrary precision floating point libraries: based on integers and based on floats.
+Since javascript don't have integers historically I found that solution based on floats much easier
+in implementation and equally good as solutions based on integer arithmetic, when it properlly cooked.
+invSqrt() / frexp() was added after inspiration with new WGSL specification, nextUp() / nextDown()
+exist in Java with same syntax, scalar fma() is the reason why this proposal was created.
 
 ### Key algorithms for pollyfill implementation
 1. Chris Lomont. _Fast inverse square root_
