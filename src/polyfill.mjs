@@ -93,7 +93,7 @@ export function fma_correct(x, y, z) {
       var t = hi * 134217729; //2**27+1
       var hh = t + (hi - t), hl = hi - hh;
       if (!(hl & 1)) {
-        if ((LO > 0) ^ (hi < 0)) {
+        if ((LO > 0) !== (hi < 0)) {
           hi = next(hi, 1);
         } else {
           hi = next(hi, -1);
