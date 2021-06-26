@@ -1,9 +1,12 @@
-import { fma, ldexp, nextUp, nextDown } from '../src/polyfill.mjs';
+import { fma, nextUp, nextDown } from '../src/polyfill.mjs';
 import { test } from 'zora';
 
 Math.fma = fma;
 let actual, expected;
 let eps = Number.EPSILON;
+function ldexp(x, exp) {
+  return x * Math.pow(2, exp);
+}
 
 test('nextUp', t => {
   t.ok(nextUp(1) === 1.0 + Math.pow(2, -52), '1');
