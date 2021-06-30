@@ -18,7 +18,12 @@ let successor = Math.nextUp(x);
 let predecessor = Math.nextDown(x);
 ```
 
-### Motivation to add this functions
+### Similar proposals basically about syntactic sugar
+- [proposal-math-extensions](https://github.com/rwaldron/proposal-math-extensions)
+- [proposal-math-signbit](https://github.com/tc39/proposal-Math.signbit)
+
+
+### Motivation to add this functions because they can be faster in native code
 - invSqrt() is used in computer graphics, we have Math.hypot(x, y) in JS but it's not inverted
 - ldexp() currently have worst polyfill ever because it's based on slowest float operation (pow)
 - frexp() could be useful for bit analysis inside float number and correct rounding
