@@ -25,7 +25,7 @@ let predecessor = Math.nextDown(x);
 
 ### Motivation to add this functions because they can be faster in native code
 - invSqrt() is used in computer graphics, we have Math.hypot(x, y) in JS but it's not inverted
-- ldexp() currently have worst polyfill ever because it's based on slowest float operation (pow)
+- ldexp() could be useful for multiplication optimization on 2**n
 - frexp() could be useful for bit analysis inside float number and correct rounding
 - fma() very useful for optimizing multiplication in arbitrary precision floating point libraries
 - nextUp()/nextDown() basic blocks for floating-point computations with correct rounding
@@ -34,8 +34,8 @@ let predecessor = Math.nextDown(x);
 | Function | Implementation                                              |
 |----------|-------------------------------------------------------------|
 | invSqrt  | done                                                        |
-| ldexp    | done                                                        |
-| frexp    | [in npm?](https://www.npmjs.com/package/math-float64-frexp) |
+| ldexp    | [in npm](https://www.npmjs.com/package/math-float64-ldexp)  |
+| frexp    | [in npm](https://www.npmjs.com/package/math-float64-frexp)  |
 | fma      | without overflow for now                                    |
 | nextUp   | done                                                        |
 | nextDown | done                                                        |
