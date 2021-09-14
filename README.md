@@ -19,10 +19,8 @@ let successor = Math.nextUp(x);
 let predecessor = Math.nextDown(x);
 ```
 
-### Similar proposals basically about syntactic sugar
+### Similar proposals
 - [proposal-math-extensions](https://github.com/rwaldron/proposal-math-extensions)
-
-
 - [proposal-math-signbit](https://github.com/tc39/proposal-Math.signbit)
 
 
